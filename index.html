@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LERO - AI创意解决方案</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top dynamic-island" style="display: none;">
+        <div class="container">
+            <a class="navbar-brand" href="#home">LERO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#ai-space">AI空间</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">关于我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="fullpage-container">
+        <section id="home" class="fullpage-section home-section">
+            <div class="video-background">
+                <div class="video-container">
+                    <video id="leftVideo" class="background-video" loop muted>
+                        <source src="" type="video/mp4">
+                    </video>
+                    <input type="file" id="leftVideoUpload" accept="video/*" style="display: none;">
+                    <button onclick="document.getElementById('leftVideoUpload').click()">上传左侧视频</button>
+                </div>
+                <div class="video-container">
+                    <video id="rightVideo" class="background-video" loop muted>
+                        <source src="" type="video/mp4">
+                    </video>
+                    <input type="file" id="rightVideoUpload" accept="video/*" style="display: none;">
+                    <button onclick="document.getElementById('rightVideoUpload').click()">上传右侧视频</button>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <h1 class="main-title">LERO</h1>
+            </div>
+        </section>
+
+        <section id="ai-space" class="fullpage-section">
+            <div class="container">
+                <h2 class="mb-5 text-center">AI创意空间</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <h3>AI图片空间</h3>
+                        <div class="image-grid">
+                            <div class="grid-item"><img src="https://via.placeholder.com/300x200" alt="AI生成图片1"></div>
+                            <div class="grid-item"><img src="https://via.placeholder.com/300x200" alt="AI生成图片2"></div>
+                            <div class="grid-item"><img src="https://via.placeholder.com/300x200" alt="AI生成图片3"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h3>AI视频空间</h3>
+                        <div class="video-player">
+                            <video id="mainVideo" controls>
+                                <source src="path_to_your_video.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="fullpage-section">
+            <div class="container">
+                <h2 class="mb-5 text-center">关于我们</h2>
+                <p class="lead mb-4 text-center">重塑数字创意的未来</p>
+                <div class="gradient-line mb-4"></div>
+                <p class="mb-5 text-center">我们致力于利用AI技术，为创意产业提供革命性的解决方案。</p>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 mb-4">
+                        <div class="team-member text-center">
+                            <img src="https://via.placeholder.com/150" alt="张三" class="rounded-circle mb-3">
+                            <h3>张三</h3>
+                            <p>AI研究主管</p>
+                        </div>
+                    </div>
+                    <!-- 添加更多团队成员 -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="bg-dark text-light py-3">
+        <div class="container text-center">
+            <p>&copy; 2023 LERO. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let sections = $('.fullpage-section');
+            let currentSection = 0;
+
+            function scrollToSection(index) {
+                let targetSection = sections.eq(index);
+                $('html, body').animate({
+                    scrollTop: targetSection.offset().top
+                }, 1000, function() {
+                    sections.removeClass('pop-in');
+                    targetSection.addClass('pop-in');
+                });
+
+                if (index > 0) {
+                    $('.navbar').fadeIn();
+                } else {
+                    $('.navbar').fadeOut();
+                }
+            }
+
+            $(window).on('wheel', function(event) {
+                event.preventDefault();
+                if (event.originalEvent.deltaY > 0 && currentSection < sections.length - 1) {
+                    currentSection++;
+                } else if (event.originalEvent.deltaY < 0 && currentSection > 0) {
+                    currentSection--;
+                }
+                scrollToSection(currentSection);
+            });
+
+            $('.video-background').on('mousemove', function(e) {
+                var leftVideo = document.getElementById('leftVideo');
+                var rightVideo = document.getElementById('rightVideo');
+                var containerWidth = $(this).width();
+                var mouseX = e.pageX - $(this).offset().left;
+
+                if (mouseX < containerWidth / 2) {
+                    if (leftVideo.paused) {
+                        leftVideo.play();
+                    }
+                    rightVideo.pause();
+                } else {
+                    if (rightVideo.paused) {
+                        rightVideo.play();
+                    }
+                    leftVideo.pause();
+                }
+            });
+
+            $('.video-background').on('mouseleave', function() {
+                var leftVideo = document.getElementById('leftVideo');
+                var rightVideo = document.getElementById('rightVideo');
+                leftVideo.pause();
+                rightVideo.pause();
+            });
+
+            // 修改文件上传处理
+            $('#leftVideoUpload, #rightVideoUpload').change(function(event) {
+                var videoId = this.id === 'leftVideoUpload' ? 'leftVideo' : 'rightVideo';
+                handleVideoUpload(event, videoId);
+            });
+
+            function handleVideoUpload(event, videoId) {
+                var file = event.target.files[0];
+                var formData = new FormData();
+                formData.append('video', file);
+
+                $.ajax({
+                    url: '/upload-video', // 替换为您的后端上传接口
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            var video = document.getElementById(videoId);
+                            video.src = response.videoUrl;
+                            video.load();
+                        } else {
+                            alert('视频上传失败：' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('视频上传失败，请稍后重试。');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
